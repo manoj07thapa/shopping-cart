@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const { User } = require('./models/user');
 const config = require('./config/key');
+const { auth } = require('./middleware/auth');
 
 mongoose
 	.connect(config.mongoURI, {
@@ -16,7 +17,18 @@ mongoose
 app.use(express.json());
 app.use(cookieParser());
 
-app.post('/api/users/resister', (req, res) => {
+app.get('/api/user/auth', auth, (req, res) => {
+	res.status(200).json({
+		_id: req.user._id,
+		name: req.user.name,
+		email: req.user.email,
+		isAuth: true,
+		lastname: req.user.lastname,
+		role: req.user.role
+	});
+});
+
+app.post('/api/users/register', (req, res) => {
 	const user = new User(req.body);
 	user.save((err, userData) => {
 		if (err) {
