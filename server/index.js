@@ -71,6 +71,6 @@ app.get('/api/user/logout', auth, (req, res) => {
 app.get('/', (req, res) => {
 	res.send('Hello from node');
 });
-const port = process.env.PORT || 500;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
